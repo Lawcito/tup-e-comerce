@@ -1,36 +1,37 @@
-<p>settings works!</p>
-<main class="settings-page">
-  <h1>Configuración</h1>
+  <main class="settings-page">
+    <h1>Configuración</h1>
 
-  <div class="settings-container">
-    <mat-card class="settings-card">
-      <mat-card-header>
-        <mat-card-title>Preferencias de Notificaciones</mat-card-title>
-      </mat-card-header>
-      <mat-card-content>
-        <mat-list>
-          <mat-list-item>
-            <mat-icon matListItemIcon>notifications</mat-icon>
-            <span matListItemTitle>Notificaciones Push</span>
-            <mat-slide-toggle matListItemMeta [(ngModel)]="notificationsEnabled"></mat-slide-toggle>
-          </mat-list-item>
-        </mat-list>
-      </mat-card-content>
-    </mat-card>
+    <div class="settings-container">
 
-    <mat-card class="settings-card">
-      <mat-card-header>
-        <mat-card-title>Apariencia</mat-card-title>
-      </mat-card-header>
-      <mat-card-content>
-        <mat-list>
-          <mat-list-item>
-            <mat-icon matListItemIcon>dark_mode</mat-icon>
-            <span matListItemTitle>Modo Oscuro</span>
-            <mat-slide-toggle matListItemMeta [(ngModel)]="darkModeEnabled"></mat-slide-toggle>
-          </mat-list-item>
-        </mat-list>
-      </mat-card-content>
-    </mat-card>
-  </div>
-</main>
+      <mat-card class="settings-card">
+        <mat-card-header>
+          <mat-card-title>Mi cuenta</mat-card-title>
+        </mat-card-header>
+        <mat-card-content>
+          <mat-list>
+            <mat-list-item>
+              <mat-icon matListItemIcon>person</mat-icon>
+              <span matListItemTitle>{{ getUser()?.displayName }}</span>
+            </mat-list-item>
+            <mat-list-item>
+              <mat-icon matListItemIcon>email</mat-icon>
+              <span matListItemTitle>{{ getUser()?.email }}</span>
+            </mat-list-item>
+          </mat-list>
+        </mat-card-content>
+      </mat-card>
+
+      <mat-card class="settings-card">
+        <mat-card-header>
+          <mat-card-title>Sesión</mat-card-title>
+        </mat-card-header>
+        <mat-card-content>
+        <button mat-raised-button color="warn" (click)="openLogoutConfirm()">
+          <mat-icon>logout</mat-icon>
+           Cerrar sesión
+        </button>  
+        </mat-card-content>
+      </mat-card>
+
+    </div>
+  </main>

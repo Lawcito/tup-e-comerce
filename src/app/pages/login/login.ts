@@ -1,8 +1,8 @@
 import { Component, signal } from '@angular/core';
-import { Router } from '@angular/router';
 import { MatButtonModule } from '@angular/material/button';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatCardModule } from '@angular/material/card';
+import { AuthService } from '../../services/auth';
 
 @Component({
   selector: 'app-login',
@@ -14,15 +14,10 @@ import { MatCardModule } from '@angular/material/card';
 export class LoginComponent {
   loading = signal(false);
 
-  constructor(private router: Router) { }
+  constructor(private authService: AuthService) { }
 
   onLogin(): void {
     this.loading.set(true);
-
-    setTimeout(() => {
-      sessionStorage.setItem('session', 'active');
-      this.loading.set(false);
-      this.router.navigate(['/items']);
-    }, 2000);
+    this.authService.login().finally(() => this.loading.set(false));
   }
 }
