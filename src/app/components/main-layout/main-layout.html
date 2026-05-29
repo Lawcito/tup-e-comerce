@@ -1,9 +1,13 @@
 <div class="main-layout">
-  <app-sidebar *ngIf="isLargeScreen()" class="sidebar-wrapper"></app-sidebar>
+  @if (isLargeScreen()) {
+    <app-sidebar class="sidebar-wrapper"></app-sidebar>
+  }
 
   <main class="main-content" [class.with-sidebar]="isLargeScreen()">
     <router-outlet></router-outlet>
   </main>
 
-  <app-bottom-bar *ngIf="!isLargeScreen()" class="bottom-bar-wrapper"></app-bottom-bar>
+  @if (!isLargeScreen()) {
+    <app-bottom-bar class="bottom-bar-wrapper"></app-bottom-bar>
+  }
 </div>

@@ -1,7 +1,8 @@
-import { Injectable, NgZone } from '@angular/core';
+import { Injectable, NgZone, inject } from '@angular/core';
 import { Router } from '@angular/router';
 import { initializeApp } from 'firebase/app';
 import { getAuth, signInWithPopup, GoogleAuthProvider, signOut, onAuthStateChanged } from 'firebase/auth';
+import i18next from '../i18n';
 
 const firebaseConfig = {
   apiKey: "AIzaSyDdSGd2cM2JemXn7ahXzyJs6bCqvMikIxw",
@@ -23,8 +24,10 @@ export interface AuthUser {
 @Injectable({ providedIn: 'root' })
 export class AuthService {
   private authStatePromise: Promise<void>;
+  private router = inject(Router);
+  private zone = inject(NgZone);
 
-  constructor(private router: Router, private zone: NgZone) {
+  constructor() {
     this.authStatePromise = new Promise((resolve) => {
       onAuthStateChanged(auth, (user) => {
         resolve();
@@ -49,7 +52,7 @@ export class AuthService {
 
   login(): Promise<void> {
     const provider = new GoogleAuthProvider();
-    return signInWithPopup(auth, provider).then(() => { });
+    return signInWithPopup(auth, provider).then(() => undefined);
   }
 
   logout(): Promise<void> {
@@ -64,7 +67,7 @@ export class AuthService {
     const user = auth.currentUser;
     if (!user) return null;
     return {
-      displayName: user.displayName ?? 'Usuario',
+      displayName: user.displayName ?? i18next.t('common.user'),
       email: user.email ?? ''
     };
   }

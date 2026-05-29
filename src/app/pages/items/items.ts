@@ -1,10 +1,12 @@
-import { Component, OnInit, computed, signal } from '@angular/core';
+import { Component, OnInit, computed, inject, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatCardModule } from '@angular/material/card';
 import { ItemsService } from '../../services/items';
 import { Item } from '../../models/item';
+import i18next from '../../i18n';
+import { TranslatePipe } from '../../pipes/translate.pipe';
 
 @Component({
   selector: 'app-items',
@@ -13,7 +15,8 @@ import { Item } from '../../models/item';
     CommonModule,
     FormsModule,
     MatProgressSpinnerModule,
-    MatCardModule
+    MatCardModule,
+    TranslatePipe
   ],
   templateUrl: './items.html',
   styleUrl: './items.css',
@@ -22,6 +25,7 @@ export class Items implements OnInit {
   items = signal<Item[]>([]);
   loading = signal(false);
   errorMessage = signal('');
+  private itemsService = inject(ItemsService);
 
   searchText = signal('');
   sortBy = signal('name');
@@ -54,8 +58,6 @@ export class Items implements OnInit {
     return result;
   });
 
-  constructor(private itemsService: ItemsService) {}
-
   ngOnInit(): void {
     this.loadItems();
   }
@@ -73,7 +75,7 @@ export class Items implements OnInit {
       },
       error: (error) => {
         console.error('Error al obtener los productos:', error);
-        this.errorMessage.set('No pudimos cargar los productos. Intentá nuevamente más tarde.');
+        this.errorMessage.set(i18next.t('items.error'));
         this.loading.set(false);
       }
     });
@@ -87,7 +89,7 @@ export class Items implements OnInit {
     this.sortBy.set(value);
   }
 
-  hideBrokenImage(event:Event): void{
+  hideBrokenImage(event: Event): void {
     const image = event.target as HTMLImageElement;
     const card = image.closest('.item-card') as HTMLElement;
     if (card) {

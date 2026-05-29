@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable, of, tap } from 'rxjs';
 import { Item } from '../models/item';
@@ -15,8 +15,7 @@ export class ItemsService {
   private readonly apiUrl = 'http://makeup-api.herokuapp.com/api/v1/products.json';
   private readonly cacheKey = 'items-cache';
   private readonly cacheDuration = 5 * 60 * 1000;
-
-  constructor(private http: HttpClient) {}
+  private http = inject(HttpClient);
 
   getItems(): Observable<Item[]> {
     const cachedItems = this.getCachedItems();
