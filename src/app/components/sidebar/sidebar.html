@@ -1,24 +1,24 @@
 <nav class="sidebar">
   <div class="sidebar-header">
-    <h2>Clock Nails</h2>
+    <h2>{{ 'login.title' | translate }}</h2>
   </div>
   
   <mat-nav-list class="sidebar-menu">
     <mat-list-item routerLink="/items" routerLinkActive="active">
       <mat-icon matListItemIcon>shopping_cart</mat-icon>
-      <span matListItemTitle>Items</span>
+      <span matListItemTitle>{{ 'navigation.items' | translate }}</span>
     </mat-list-item>
     
     <mat-list-item routerLink="/settings" routerLinkActive="active">
       <mat-icon matListItemIcon>settings</mat-icon>
-      <span matListItemTitle>Configuración</span>
+      <span matListItemTitle>{{ 'navigation.settings' | translate }}</span>
     </mat-list-item>
   </mat-nav-list>
 
   <div class="sidebar-footer">
     <button class="logout-btn" (click)="openLogoutConfirm()">
       <mat-icon>logout</mat-icon>
-      Cerrar sesión
+      {{ 'navigation.logout' | translate }}
     </button>
   </div>
 </nav>

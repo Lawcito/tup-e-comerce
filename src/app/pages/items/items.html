@@ -1,11 +1,11 @@
 <main class="items-page">
   <header class="items-header">
-    <h1>Productos</h1>
+    <h1>{{ 'items.title' | translate }}</h1>
 
     <div class="items-controls">
       <input
         type="text"
-        placeholder="Buscar por nombre, marca, descripción o categoría"
+        [placeholder]="'items.searchPlaceholder' | translate"
         [ngModel]="searchText()"
         (ngModelChange)="onSearchChange($event)"
       />
@@ -14,12 +14,12 @@
         [ngModel]="sortBy()"
         (ngModelChange)="onSortChange($event)"
       >
-        <option value="name">Ordenar por nombre</option>
-        <option value="brand">Ordenar por marca</option>
-        <option value="price">Ordenar por precio</option>
-        <option value="rating">Ordenar por puntaje</option>
-        <option value="category">Ordenar por categoría</option>
-        <option value="product_type">Ordenar por tipo</option>
+        <option value="name">{{ 'items.sortByName' | translate }}</option>
+        <option value="brand">{{ 'items.sortByBrand' | translate }}</option>
+        <option value="price">{{ 'items.sortByPrice' | translate }}</option>
+        <option value="rating">{{ 'items.sortByRating' | translate }}</option>
+        <option value="category">{{ 'items.sortByCategory' | translate }}</option>
+        <option value="product_type">{{ 'items.sortByType' | translate }}</option>
       </select>
     </div>
   </header>
@@ -27,7 +27,7 @@
   @if (loading()) {
     <section class="loading-container">
       <mat-spinner diameter="48"></mat-spinner>
-      <p>Cargando productos...</p>
+      <p>{{ 'items.loading' | translate }}</p>
     </section>
   }
 
@@ -52,20 +52,20 @@
             <h2>{{ item.name }}</h2>
 
             <p class="item-brand">
-              {{ item.brand || 'Sin marca' }}
+              {{ item.brand || ('items.noBrand' | translate) }}
             </p>
 
             <p class="item-description">
-              {{ item.description || 'Sin descripción disponible.' }}
+              {{ item.description || ('items.noDescription' | translate) }}
             </p>
 
             <div class="item-info">
-              <span>Precio: ${{ item.price || '0' }}</span>
-              <span>Puntaje: {{ item.rating || 'Sin puntaje' }}</span>
+              <span>{{ 'items.price' | translate }}: ${{ item.price || '0' }}</span>
+              <span>{{ 'items.rating' | translate }}: {{ item.rating || ('items.noRating' | translate) }}</span>
             </div>
 
             <p class="item-category">
-              {{ item.category || item.product_type || 'Sin categoría' }}
+              {{ item.category || item.product_type || ('items.noCategory' | translate) }}
             </p>
           </mat-card-content>
         </mat-card>
@@ -73,7 +73,7 @@
     </section>
 
     @if (filteredItems().length === 0) {
-      <p class="empty-message">No se encontraron productos.</p>
+      <p class="empty-message">{{ 'items.empty' | translate }}</p>
     }
   }
 </main>

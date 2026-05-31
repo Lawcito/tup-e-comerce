@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { Observable, of, tap } from 'rxjs';
 import { Item } from '../models/item';
 import { ItemsApiService } from './items-api.service';
