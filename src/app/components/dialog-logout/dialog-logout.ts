@@ -2,24 +2,25 @@ import { Component, inject } from '@angular/core';
 import { MatDialogRef, MatDialogModule } from '@angular/material/dialog';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
+import { TranslatePipe } from '../../pipes/translate.pipe';
 
 @Component({
   selector: 'app-confirm-logout-dialog',
   standalone: true,
-  imports: [MatDialogModule, MatButtonModule, MatIconModule],
+  imports: [MatDialogModule, MatButtonModule, MatIconModule, TranslatePipe],
   template: `
     <mat-dialog-content>
       <div class="dialog-icon">
         <mat-icon color="warn">logout</mat-icon>
       </div>
-      <h2 mat-dialog-title>¿Cerrar sesión?</h2>
-      <p>¿Estás seguro de que querés salir de tu cuenta?</p>
+      <h2 mat-dialog-title>{{ 'logoutDialog.title' | translate }}</h2>
+      <p>{{ 'logoutDialog.message' | translate }}</p>
     </mat-dialog-content>
 
     <mat-dialog-actions align="end">
-      <button mat-button (click)="onCancel()">Cancelar</button>
+      <button mat-button (click)="onCancel()">{{ 'logoutDialog.cancel' | translate }}</button>
       <button mat-raised-button color="warn" (click)="onConfirm()">
-        Cerrar sesión
+        {{ 'logoutDialog.confirm' | translate }}
       </button>
     </mat-dialog-actions>
   `,

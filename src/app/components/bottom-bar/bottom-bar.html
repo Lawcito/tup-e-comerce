@@ -1,17 +1,16 @@
-<p>bottom-bar works!</p>
 <nav class="bottom-bar">
   <a class="bottom-bar-item" routerLink="/items" routerLinkActive="active">
     <mat-icon>shopping_cart</mat-icon>
-    <span>Items</span>
+    <span>{{ 'navigation.items' | translate }}</span>
   </a>
   
   <a class="bottom-bar-item" routerLink="/settings" routerLinkActive="active">
     <mat-icon>settings</mat-icon>
-    <span>Configuración</span>
+    <span>{{ 'navigation.settings' | translate }}</span>
   </a>
 
   <button class="bottom-bar-item logout" (click)="onLogout()">
     <mat-icon>logout</mat-icon>
-    <span>Salir</span>
+    <span>{{ 'navigation.exit' | translate }}</span>
   </button>
 </nav>

@@ -1,37 +1,37 @@
-  <main class="settings-page">
-    <h1>Configuración</h1>
+<main class="settings-page">
+  <h1>{{ 'settings.title' | translate }}</h1>
 
-    <div class="settings-container">
+  <div class="settings-container">
 
-      <mat-card class="settings-card">
-        <mat-card-header>
-          <mat-card-title>Mi cuenta</mat-card-title>
-        </mat-card-header>
-        <mat-card-content>
-          <mat-list>
-            <mat-list-item>
-              <mat-icon matListItemIcon>person</mat-icon>
-              <span matListItemTitle>{{ getUser()?.displayName }}</span>
-            </mat-list-item>
-            <mat-list-item>
-              <mat-icon matListItemIcon>email</mat-icon>
-              <span matListItemTitle>{{ getUser()?.email }}</span>
-            </mat-list-item>
-          </mat-list>
-        </mat-card-content>
-      </mat-card>
+    <mat-card class="settings-card">
+      <mat-card-header>
+        <mat-card-title>{{ 'settings.account' | translate }}</mat-card-title>
+      </mat-card-header>
+      <mat-card-content>
+        <mat-list>
+          <mat-list-item>
+            <mat-icon matListItemIcon>person</mat-icon>
+            <span matListItemTitle>{{ getUser()?.displayName }}</span>
+          </mat-list-item>
+          <mat-list-item>
+            <mat-icon matListItemIcon>email</mat-icon>
+            <span matListItemTitle>{{ getUser()?.email }}</span>
+          </mat-list-item>
+        </mat-list>
+      </mat-card-content>
+    </mat-card>
 
-      <mat-card class="settings-card">
-        <mat-card-header>
-          <mat-card-title>Sesión</mat-card-title>
-        </mat-card-header>
-        <mat-card-content>
+    <mat-card class="settings-card">
+      <mat-card-header>
+        <mat-card-title>{{ 'settings.session' | translate }}</mat-card-title>
+      </mat-card-header>
+      <mat-card-content>
         <button mat-raised-button color="warn" (click)="openLogoutConfirm()">
           <mat-icon>logout</mat-icon>
-           Cerrar sesión
+          {{ 'navigation.logout' | translate }}
         </button>  
-        </mat-card-content>
-      </mat-card>
+      </mat-card-content>
+    </mat-card>
 
-    </div>
-  </main>
+  </div>
+</main>

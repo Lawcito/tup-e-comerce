@@ -2,16 +2,16 @@
     <article class="login-card">
 
         <header class="login-header">
-            <img class="login-logo" src="assets/logo_clocknails.png" alt="Clock Nails logo" />
-            <h1 class="login-title">Clock Nails</h1>
-            <p class="login-subtitle">Ingresá para continuar</p>
+            <img class="login-logo" src="assets/logo_clocknails.png" [alt]="'login.logoAlt' | translate" />
+            <h1 class="login-title">{{ 'login.title' | translate }}</h1>
+            <p class="login-subtitle">{{ 'login.subtitle' | translate }}</p>
         </header>
 
         <button mat-raised-button class="login-button" [disabled]="loading()" (click)="onLogin()">
             @if (loading()) {
             <mat-spinner diameter="22" />
             } @else {
-            Iniciar sesión
+            {{ 'login.button' | translate }}
             }
         </button>
 

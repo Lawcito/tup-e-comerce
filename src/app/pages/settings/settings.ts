@@ -8,23 +8,26 @@ import { MatDialogModule, MatDialog } from '@angular/material/dialog';
 import { AuthService, AuthUser } from '../../services/auth';
 import { getAuth, onAuthStateChanged } from 'firebase/auth';
 import { ConfirmLogoutDialogComponent } from '../../components/dialog-logout/dialog-logout';
+import i18next from '../../i18n';
+import { TranslatePipe } from '../../pipes/translate.pipe';
 
 @Component({
   selector: 'app-settings',
   standalone: true,
-  imports: [CommonModule, MatCardModule, MatListModule, MatIconModule, MatButtonModule, MatDialogModule],
+  imports: [CommonModule, MatCardModule, MatListModule, MatIconModule, MatButtonModule, MatDialogModule, TranslatePipe],
   templateUrl: './settings.html',
   styleUrl: './settings.css'
 })
 export class Settings {
   user = signal<AuthUser | null>(null);
   private dialog = inject(MatDialog);
+  private authService = inject(AuthService);
 
-  constructor(private authService: AuthService) {
+  constructor() {
     onAuthStateChanged(getAuth(), (firebaseUser) => {
       if (firebaseUser) {
         this.user.set({
-          displayName: firebaseUser.displayName ?? 'Usuario',
+          displayName: firebaseUser.displayName ?? i18next.t('common.user'),
           email: firebaseUser.email ?? ''
         });
       } else {
