@@ -10,10 +10,7 @@
         (ngModelChange)="onSearchChange($event)"
       />
 
-      <select
-        [ngModel]="sortBy()"
-        (ngModelChange)="onSortChange($event)"
-      >
+      <select [ngModel]="sortBy()" (ngModelChange)="onSortChange($event)">
         <option value="name">{{ 'items.sortByName' | translate }}</option>
         <option value="brand">{{ 'items.sortByBrand' | translate }}</option>
         <option value="price">{{ 'items.sortByPrice' | translate }}</option>
@@ -61,7 +58,10 @@
 
             <div class="item-info">
               <span>{{ 'items.price' | translate }}: ${{ item.price || '0' }}</span>
-              <span>{{ 'items.rating' | translate }}: {{ item.rating || ('items.noRating' | translate) }}</span>
+              <span
+                >{{ 'items.rating' | translate }}:
+                {{ item.rating || ('items.noRating' | translate) }}</span
+              >
             </div>
 
             <p class="item-category">
@@ -72,8 +72,17 @@
       }
     </section>
 
-    @if (filteredItems().length === 0) {
+    @if (allFilteredItems().length === 0) {
       <p class="empty-message">{{ 'items.empty' | translate }}</p>
     }
+
+    <mat-paginator
+      [length]="allFilteredItems().length"
+      [pageSize]="pageSize()"
+      [pageIndex]="currentPage()"
+      [pageSizeOptions]="[12, 24, 48]"
+      (page)="onPageChange($event)"
+      aria-label="Seleccionar página"
+    ></mat-paginator>
   }
 </main>

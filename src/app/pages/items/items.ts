@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatCardModule } from '@angular/material/card';
+import { MatPaginatorModule, PageEvent } from '@angular/material/paginator';
 import { ItemsService } from '../../services/items';
 import { Item } from '../../models/item';
 import i18next from '../../i18n';
@@ -16,7 +17,8 @@ import { TranslatePipe } from '../../pipes/translate.pipe';
     FormsModule,
     MatProgressSpinnerModule,
     MatCardModule,
-    TranslatePipe
+    MatPaginatorModule,
+    TranslatePipe,
   ],
   templateUrl: './items.html',
   styleUrl: './items.css',
@@ -29,8 +31,11 @@ export class Items implements OnInit {
 
   searchText = signal('');
   sortBy = signal('name');
+  currentPage = signal(0);
+  pageSize = signal(12);
 
-  filteredItems = computed(() => {
+  // Todos los items filtrados y ordenados (sin paginar)
+  allFilteredItems = computed(() => {
     const text = this.searchText().toLowerCase().trim();
     const sortProperty = this.sortBy();
 
@@ -58,6 +63,13 @@ export class Items implements OnInit {
     return result;
   });
 
+  // Solo los items de la página actual
+  filteredItems = computed(() => {
+    const start = this.currentPage() * this.pageSize();
+    const end = start + this.pageSize();
+    return this.allFilteredItems().slice(start, end);
+  });
+
   ngOnInit(): void {
     this.loadItems();
   }
@@ -68,8 +80,7 @@ export class Items implements OnInit {
 
     this.itemsService.getItems().subscribe({
       next: (items) => {
-        const itemsWithImage = items.filter(item => item.image_link);
-
+        const itemsWithImage = items.filter((item) => item.image_link);
         this.items.set(itemsWithImage);
         this.loading.set(false);
       },
@@ -77,16 +88,23 @@ export class Items implements OnInit {
         console.error('Error al obtener los productos:', error);
         this.errorMessage.set(i18next.t('items.error'));
         this.loading.set(false);
-      }
+      },
     });
   }
 
   onSearchChange(value: string): void {
     this.searchText.set(value);
+    this.currentPage.set(0); // Volver a página 1 al buscar
   }
 
   onSortChange(value: string): void {
     this.sortBy.set(value);
+    this.currentPage.set(0); // Volver a página 1 al ordenar
+  }
+
+  onPageChange(event: PageEvent): void {
+    this.currentPage.set(event.pageIndex);
+    this.pageSize.set(event.pageSize);
   }
 
   hideBrokenImage(event: Event): void {
@@ -101,19 +119,14 @@ export class Items implements OnInit {
     switch (property) {
       case 'price':
         return Number(item.price) || 0;
-
       case 'rating':
         return item.rating || 0;
-
       case 'brand':
         return item.brand || '';
-
       case 'category':
         return item.category || '';
-
       case 'product_type':
         return item.product_type || '';
-
       case 'name':
       default:
         return item.name || '';
