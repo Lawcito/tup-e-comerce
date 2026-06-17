@@ -1,0 +1,97 @@
+<main class="account-settings-page">
+  <div class="page-header">
+    <button mat-icon-button (click)="goBack()">
+      <mat-icon>arrow_back</mat-icon>
+    </button>
+    <h1>Mi cuenta</h1>
+  </div>
+
+  <!-- ── datos de solo lectura ── -->
+  <section class="profile-section">
+    <div class="avatar-wrapper">
+      @if (photoURL) {
+        <img [src]="photoURL" [alt]="displayName" class="avatar" referrerpolicy="no-referrer" />
+      } @else {
+        <mat-icon class="avatar-placeholder">account_circle</mat-icon>
+      }
+    </div>
+
+    <div class="profile-info">
+      <p class="profile-name">{{ displayName }}</p>
+      <p class="profile-email">{{ email }}</p>
+    </div>
+  </section>
+
+  <!-- ── formulario editable ── -->
+  <form [formGroup]="form" (ngSubmit)="onSubmit()" class="account-form">
+    <!-- fecha de nacimiento -->
+    <mat-form-field appearance="outline" class="full-width">
+      <mat-label>Fecha de nacimiento</mat-label>
+      <input matInput [matDatepicker]="picker" formControlName="birthDate" />
+      <mat-datepicker-toggle matIconSuffix [for]="picker" />
+      <mat-datepicker #picker />
+    </mat-form-field>
+
+    <!-- teléfonos -->
+    <div class="array-section">
+      <p class="array-label">Teléfonos</p>
+
+      <div formArrayName="phones">
+        @for (phone of phones.controls; track $index) {
+          <div class="array-row">
+            <mat-form-field appearance="outline" class="full-width">
+              <mat-label>Teléfono {{ $index + 1 }}</mat-label>
+              <input matInput [formControlName]="$index" type="tel" />
+            </mat-form-field>
+            <button
+              mat-icon-button
+              type="button"
+              (click)="removePhone($index)"
+              [disabled]="phones.length === 1"
+            >
+              <mat-icon>delete</mat-icon>
+            </button>
+          </div>
+        }
+      </div>
+
+      <button mat-stroked-button type="button" (click)="addPhone()">
+        <mat-icon>add</mat-icon> Agregar teléfono
+      </button>
+    </div>
+
+    <!-- direcciones -->
+    <div class="array-section">
+      <p class="array-label">Direcciones de entrega</p>
+
+      <div formArrayName="addresses">
+        @for (address of addresses.controls; track $index) {
+          <div class="array-row">
+            <mat-form-field appearance="outline" class="full-width">
+              <mat-label>Dirección {{ $index + 1 }}</mat-label>
+              <input matInput [formControlName]="$index" />
+            </mat-form-field>
+            <button
+              mat-icon-button
+              type="button"
+              (click)="removeAddress($index)"
+              [disabled]="addresses.length === 1"
+            >
+              <mat-icon>delete</mat-icon>
+            </button>
+          </div>
+        }
+      </div>
+
+      <button mat-stroked-button type="button" (click)="addAddress()">
+        <mat-icon>add</mat-icon> Agregar dirección
+      </button>
+    </div>
+
+    <!-- acciones -->
+    <div class="form-actions">
+      <button mat-button type="button" (click)="goBack()">Cancelar</button>
+      <button mat-raised-button color="primary" type="submit">Guardar</button>
+    </div>
+  </form>
+</main>

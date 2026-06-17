@@ -1,5 +1,6 @@
 import { Component, signal, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { RouterLink } from '@angular/router';
 import { MatCardModule } from '@angular/material/card';
 import { MatListModule } from '@angular/material/list';
 import { MatIconModule } from '@angular/material/icon';
@@ -14,9 +15,18 @@ import { TranslatePipe } from '../../pipes/translate.pipe';
 @Component({
   selector: 'app-settings',
   standalone: true,
-  imports: [CommonModule, MatCardModule, MatListModule, MatIconModule, MatButtonModule, MatDialogModule, TranslatePipe],
+  imports: [
+    CommonModule,
+    RouterLink,
+    MatCardModule,
+    MatListModule,
+    MatIconModule,
+    MatButtonModule,
+    MatDialogModule,
+    TranslatePipe,
+  ],
   templateUrl: './settings.html',
-  styleUrl: './settings.css'
+  styleUrl: './settings.css',
 })
 export class Settings {
   user = signal<AuthUser | null>(null);
@@ -28,7 +38,8 @@ export class Settings {
       if (firebaseUser) {
         this.user.set({
           displayName: firebaseUser.displayName ?? i18next.t('common.user'),
-          email: firebaseUser.email ?? ''
+          email: firebaseUser.email ?? '',
+          photoURL: firebaseUser.photoURL, // ← agregar
         });
       } else {
         this.user.set(null);
