@@ -1,8 +1,13 @@
 <main class="settings-page">
-  <h1>{{ 'settings.title' | translate }}</h1>
+  <div class="settings-header">
+    <h1>{{ 'settings.title' | translate }}</h1>
+    <button mat-raised-button color="warn" (click)="openLogoutConfirm()">
+      <mat-icon>logout</mat-icon>
+      {{ 'navigation.logout' | translate }}
+    </button>
+  </div>
 
   <div class="settings-container">
-
     <mat-card class="settings-card">
       <mat-card-header>
         <mat-card-title>{{ 'settings.account' | translate }}</mat-card-title>
@@ -20,18 +25,5 @@
         </mat-list>
       </mat-card-content>
     </mat-card>
-
-    <mat-card class="settings-card">
-      <mat-card-header>
-        <mat-card-title>{{ 'settings.session' | translate }}</mat-card-title>
-      </mat-card-header>
-      <mat-card-content>
-        <button mat-raised-button color="warn" (click)="openLogoutConfirm()">
-          <mat-icon>logout</mat-icon>
-          {{ 'navigation.logout' | translate }}
-        </button>  
-      </mat-card-content>
-    </mat-card>
-
   </div>
 </main>
