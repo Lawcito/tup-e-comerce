@@ -37,11 +37,19 @@
       <p class="array-label">Teléfonos</p>
 
       <div formArrayName="phones">
-        @for (phone of phones.controls; track $index) {
+        @for (phone of phones.controls; track phone) {
           <div class="array-row">
             <mat-form-field appearance="outline" class="full-width">
               <mat-label>Teléfono {{ $index + 1 }}</mat-label>
-              <input matInput [formControlName]="$index" type="tel" />
+              <input
+                matInput
+                [formControlName]="$index"
+                type="tel"
+                maxlength="15"
+                inputmode="numeric"
+                pattern="[0-9]*"
+                (keypress)="soloNumeros($event)"
+              />
             </mat-form-field>
             <button
               mat-icon-button
@@ -65,11 +73,11 @@
       <p class="array-label">Direcciones de entrega</p>
 
       <div formArrayName="addresses">
-        @for (address of addresses.controls; track $index) {
+        @for (address of addresses.controls; track address) {
           <div class="array-row">
             <mat-form-field appearance="outline" class="full-width">
               <mat-label>Dirección {{ $index + 1 }}</mat-label>
-              <input matInput [formControlName]="$index" />
+              <input matInput [formControlName]="$index" maxlength="128" />
             </mat-form-field>
             <button
               mat-icon-button

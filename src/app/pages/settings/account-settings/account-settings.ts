@@ -98,6 +98,15 @@ export class AccountSettings implements OnInit {
     if (this.phones.length > 1) this.phones.removeAt(index);
   }
 
+  //-----Funcion solo numeros---------------------------------------
+  soloNumeros(event: KeyboardEvent): void {
+    const charCode = event.key;
+    // Permite solo dígitos del 0 al 9
+    if (!/[0-9]/.test(charCode)) {
+      event.preventDefault();
+    }
+  }
+
   // ─── direcciones ─────────────────────────────────────────────────
   addAddress(): void {
     this.addresses.push(this.fb.control(''));
@@ -116,6 +125,7 @@ export class AccountSettings implements OnInit {
     };
     localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
     this.snackBar.open('Datos guardados', 'Cerrar', { duration: 3000 });
+    this.router.navigate(['/settings']);
   }
 
   // ─── cancelar ────────────────────────────────────────────────────

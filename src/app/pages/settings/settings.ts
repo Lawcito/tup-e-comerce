@@ -33,6 +33,8 @@ export class Settings {
   private dialog = inject(MatDialog);
   private authService = inject(AuthService);
 
+  savedData = this.loadSavedData();
+
   constructor() {
     onAuthStateChanged(getAuth(), (firebaseUser) => {
       if (firebaseUser) {
@@ -61,5 +63,14 @@ export class Settings {
         this.authService.logout();
       }
     });
+  }
+
+  private loadSavedData(): { birthDate: string; phones: string[]; addresses: string[] } | null {
+    try {
+      const raw = localStorage.getItem('account-settings');
+      return raw ? JSON.parse(raw) : null;
+    } catch {
+      return null;
+    }
   }
 }
