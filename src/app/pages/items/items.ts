@@ -65,9 +65,16 @@ export class Items implements OnInit {
 
   // Solo los items de la página actual
   filteredItems = computed(() => {
-    const start = this.currentPage() * this.pageSize();
-    const end = start + this.pageSize();
-    return this.allFilteredItems().slice(start, end);
+    const all = this.allFilteredItems();
+    const size = this.pageSize();
+    let start = this.currentPage() * size;
+
+    // Si por un evento inicial el "start" se pasa del total, lo reseteamos a 0
+    if (start >= all.length) {
+      start = 0;
+    }
+
+    return all.slice(start, start + size);
   });
 
   ngOnInit(): void {
