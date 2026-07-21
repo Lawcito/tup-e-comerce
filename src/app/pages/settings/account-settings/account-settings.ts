@@ -54,6 +54,9 @@ export class AccountSettings implements OnInit {
   email = '';
   photoURL = '';
 
+  // ─── fecha máxima seleccionable en el datepicker (hoy) ───────────
+  today = new Date();
+
   // ─── formulario ──────────────────────────────────────────────────
   form!: FormGroup;
 
@@ -68,7 +71,7 @@ export class AccountSettings implements OnInit {
     const saved = this.loadFromStorage();
 
     this.form = this.fb.group({
-      birthDate: new FormControl<string>(saved?.birthDate ?? ''),
+      birthDate: new FormControl<Date | null>(saved?.birthDate ? new Date(saved.birthDate) : null),
       phones: this.fb.array(
         saved?.phones?.length ? saved.phones.map((p) => this.fb.control(p)) : [this.fb.control('')],
       ),
@@ -118,14 +121,31 @@ export class AccountSettings implements OnInit {
 
   // ─── guardar ─────────────────────────────────────────────────────
   onSubmit(): void {
+    if (this.form.invalid) {
+      this.snackBar.open('Revisá la fecha de nacimiento: no puede ser una fecha futura', 'Cerrar', {
+        duration: 4000,
+      });
+      return;
+    }
+
+    const birthDateValue = this.form.value.birthDate;
+
     const data: StoredData = {
-      birthDate: this.form.value.birthDate ?? '',
+      birthDate: birthDateValue ? new Date(birthDateValue).toISOString() : '',
       phones: this.form.value.phones ?? [],
       addresses: this.form.value.addresses ?? [],
     };
+
     localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
-    this.snackBar.open('Datos guardados', 'Cerrar', { duration: 3000 });
-    this.router.navigate(['/settings']);
+
+    // Esperamos a que el toast se cierre antes de navegar,
+    // así la vista de configuración ya muestra los datos guardados.
+    this.snackBar
+      .open('Datos guardados', 'Cerrar', { duration: 3000 })
+      .afterDismissed()
+      .subscribe(() => {
+        this.router.navigate(['/settings']);
+      });
   }
 
   // ─── cancelar ────────────────────────────────────────────────────
