@@ -1,0 +1,14 @@
+[
+  {
+    "url": "http://localhost:13731/index.html",
+    "isRepresentativeRun": true,
+    "htmlPath": "C:\\Users\\lawco\\Desktop\\dev\\e-comerce\\lhci-reports\\localhost-index_html-2026_07_22_21_44_57.report.html",
+    "jsonPath": "C:\\Users\\lawco\\Desktop\\dev\\e-comerce\\lhci-reports\\localhost-index_html-2026_07_22_21_44_57.report.json",
+    "summary": {
+      "performance": 0.71,
+      "accessibility": 0.92,
+      "best-practices": 1,
+      "seo": 0.91
+    }
+  }
+]

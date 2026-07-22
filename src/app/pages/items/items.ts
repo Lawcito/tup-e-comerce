@@ -7,17 +7,11 @@ import { ItemsService } from '../../services/items';
 import { Item } from '../../models/item';
 import i18next from '../../i18n';
 import { TranslatePipe } from '../../pipes/translate.pipe';
-
+import { AnalyticsService } from '../../services/analytics.service';
 @Component({
   selector: 'app-items',
   standalone: true,
-  imports: [
-    CommonModule,
-    FormsModule,
-    MatProgressSpinnerModule,
-    MatCardModule,
-    TranslatePipe
-  ],
+  imports: [CommonModule, FormsModule, MatProgressSpinnerModule, MatCardModule, TranslatePipe],
   templateUrl: './items.html',
   styleUrl: './items.css',
 })
@@ -26,6 +20,7 @@ export class Items implements OnInit {
   loading = signal(false);
   errorMessage = signal('');
   private itemsService = inject(ItemsService);
+  private analyticsService = inject(AnalyticsService);
 
   searchText = signal('');
   sortBy = signal('name');
@@ -68,21 +63,25 @@ export class Items implements OnInit {
 
     this.itemsService.getItems().subscribe({
       next: (items) => {
-        const itemsWithImage = items.filter(item => item.image_link);
+        const itemsWithImage = items.filter((item) => item.image_link);
 
         this.items.set(itemsWithImage);
         this.loading.set(false);
+        this.analyticsService.sendEvent('view_item_list');
       },
       error: (error) => {
         console.error('Error al obtener los productos:', error);
         this.errorMessage.set(i18next.t('items.error'));
         this.loading.set(false);
-      }
+      },
     });
   }
 
   onSearchChange(value: string): void {
     this.searchText.set(value);
+    if (value.trim() !== '') {
+      this.analyticsService.sendEvent('search', { search_term: value });
+    }
   }
 
   onSortChange(value: string): void {
