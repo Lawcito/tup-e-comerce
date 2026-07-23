@@ -42,6 +42,8 @@ i18next.init({
           rating: 'Puntaje',
           noRating: 'Sin puntaje',
           noCategory: 'Sin categoría',
+          filterByBrand: 'Filtrar por marca',
+          clearBrandFilter: 'Limpiar filtro',
         },
         settings: {
           title: 'Configuración',

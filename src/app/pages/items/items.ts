@@ -11,13 +11,7 @@ import { TranslatePipe } from '../../pipes/translate.pipe';
 @Component({
   selector: 'app-items',
   standalone: true,
-  imports: [
-    CommonModule,
-    FormsModule,
-    MatProgressSpinnerModule,
-    MatCardModule,
-    TranslatePipe
-  ],
+  imports: [CommonModule, FormsModule, MatProgressSpinnerModule, MatCardModule, TranslatePipe],
   templateUrl: './items.html',
   styleUrl: './items.css',
 })
@@ -30,18 +24,35 @@ export class Items implements OnInit {
   searchText = signal('');
   sortBy = signal('name');
 
+  // ─── filtro por marca ────────────────────────────────────────────
+  selectedBrands = signal<string[]>([]);
+  showBrandDropdown = signal(false);
+
+  availableBrands = computed(() => {
+    const brands = this.items()
+      .map((item) => item.brand)
+      .filter((brand): brand is string => !!brand);
+
+    return [...new Set(brands)].sort((a, b) => a.localeCompare(b));
+  });
+
   filteredItems = computed(() => {
     const text = this.searchText().toLowerCase().trim();
     const sortProperty = this.sortBy();
+    const brands = this.selectedBrands();
 
     let result = this.items().filter((item) => {
-      return (
+      const matchesText =
         item.name?.toLowerCase().includes(text) ||
         item.brand?.toLowerCase().includes(text) ||
         item.description?.toLowerCase().includes(text) ||
         item.category?.toLowerCase().includes(text) ||
-        item.product_type?.toLowerCase().includes(text)
-      );
+        item.product_type?.toLowerCase().includes(text);
+
+      const matchesBrand =
+        brands.length === 0 || (item.brand ? brands.includes(item.brand) : false);
+
+      return matchesText && matchesBrand;
     });
 
     result = [...result].sort((a, b) => {
@@ -68,7 +79,7 @@ export class Items implements OnInit {
 
     this.itemsService.getItems().subscribe({
       next: (items) => {
-        const itemsWithImage = items.filter(item => item.image_link);
+        const itemsWithImage = items.filter((item) => item.image_link);
 
         this.items.set(itemsWithImage);
         this.loading.set(false);
@@ -77,7 +88,7 @@ export class Items implements OnInit {
         console.error('Error al obtener los productos:', error);
         this.errorMessage.set(i18next.t('items.error'));
         this.loading.set(false);
-      }
+      },
     });
   }
 
@@ -87,6 +98,32 @@ export class Items implements OnInit {
 
   onSortChange(value: string): void {
     this.sortBy.set(value);
+  }
+
+  // ─── filtro por marca ────────────────────────────────────────────
+  toggleBrandDropdown(): void {
+    this.showBrandDropdown.set(!this.showBrandDropdown());
+  }
+
+  closeBrandDropdown(): void {
+    this.showBrandDropdown.set(false);
+  }
+
+  isBrandSelected(brand: string): boolean {
+    return this.selectedBrands().includes(brand);
+  }
+
+  toggleBrand(brand: string): void {
+    const current = this.selectedBrands();
+    if (current.includes(brand)) {
+      this.selectedBrands.set(current.filter((b) => b !== brand));
+    } else {
+      this.selectedBrands.set([...current, brand]);
+    }
+  }
+
+  clearBrandFilter(): void {
+    this.selectedBrands.set([]);
   }
 
   hideBrokenImage(event: Event): void {

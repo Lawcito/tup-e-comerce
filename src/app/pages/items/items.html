@@ -10,10 +10,46 @@
         (ngModelChange)="onSearchChange($event)"
       />
 
-      <select
-        [ngModel]="sortBy()"
-        (ngModelChange)="onSortChange($event)"
-      >
+      <div class="brand-filter-wrapper">
+        <button
+          type="button"
+          class="brand-filter-button"
+          [class.active]="selectedBrands().length > 0"
+          (click)="toggleBrandDropdown()"
+        >
+          {{ 'items.filterByBrand' | translate }}
+          @if (selectedBrands().length > 0) {
+            <span class="brand-filter-count">{{ selectedBrands().length }}</span>
+          }
+        </button>
+
+        @if (showBrandDropdown()) {
+          <div class="brand-dropdown">
+            @if (availableBrands().length === 0) {
+              <p class="brand-dropdown-empty">{{ 'items.noBrand' | translate }}</p>
+            }
+
+            @for (brand of availableBrands(); track brand) {
+              <div class="brand-option" (click)="toggleBrand(brand)">
+                <input
+                  type="checkbox"
+                  [checked]="isBrandSelected(brand)"
+                  (click)="$event.preventDefault()"
+                />
+                <span class="brand-option-label">{{ brand }}</span>
+              </div>
+            }
+
+            @if (selectedBrands().length > 0) {
+              <button type="button" class="brand-clear-button" (click)="clearBrandFilter()">
+                {{ 'items.clearBrandFilter' | translate }}
+              </button>
+            }
+          </div>
+        }
+      </div>
+
+      <select [ngModel]="sortBy()" (ngModelChange)="onSortChange($event)">
         <option value="name">{{ 'items.sortByName' | translate }}</option>
         <option value="brand">{{ 'items.sortByBrand' | translate }}</option>
         <option value="price">{{ 'items.sortByPrice' | translate }}</option>
@@ -61,7 +97,10 @@
 
             <div class="item-info">
               <span>{{ 'items.price' | translate }}: ${{ item.price || '0' }}</span>
-              <span>{{ 'items.rating' | translate }}: {{ item.rating || ('items.noRating' | translate) }}</span>
+              <span
+                >{{ 'items.rating' | translate }}:
+                {{ item.rating || ('items.noRating' | translate) }}</span
+              >
             </div>
 
             <p class="item-category">
