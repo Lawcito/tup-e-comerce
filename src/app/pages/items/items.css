@@ -118,6 +118,7 @@
   color: var(--text-color);
   cursor: pointer;
   transition: background-color 0.2s ease;
+  width: 100%;
 }
 
 .brand-option:hover {
@@ -134,7 +135,8 @@
 
 .brand-option-label {
   flex: 1;
-  word-break: break-word;
+  min-width: 0;
+  overflow-wrap: break-word;
   font-size: 14px;
 }
 
