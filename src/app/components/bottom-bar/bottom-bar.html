@@ -3,11 +3,16 @@
     <mat-icon>shopping_cart</mat-icon>
     <span>{{ 'navigation.items' | translate }}</span>
   </a>
-  
+
   <a class="bottom-bar-item" routerLink="/settings" routerLinkActive="active">
     <mat-icon>settings</mat-icon>
     <span>{{ 'navigation.settings' | translate }}</span>
   </a>
+
+  <button class="bottom-bar-item" (click)="openAppInfo()">
+    <mat-icon>info</mat-icon>
+    <span>{{ 'navigation.info' | translate }}</span>
+  </button>
 
   <button class="bottom-bar-item logout" (click)="onLogout()">
     <mat-icon>logout</mat-icon>

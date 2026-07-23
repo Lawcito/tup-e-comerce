@@ -23,6 +23,7 @@ i18next.init({
           settings: 'Configuración',
           logout: 'Cerrar sesión',
           exit: 'Salir',
+          info: 'Información',
         },
         items: {
           title: 'Productos',
@@ -42,6 +43,8 @@ i18next.init({
           rating: 'Puntaje',
           noRating: 'Sin puntaje',
           noCategory: 'Sin categoría',
+          filterByBrand: 'Filtrar por marca',
+          clearBrandFilter: 'Limpiar filtro',
         },
         settings: {
           title: 'Configuración',
@@ -53,6 +56,11 @@ i18next.init({
           message: '¿Estás seguro de que querés salir de tu cuenta?',
           cancel: 'Cancelar',
           confirm: 'Cerrar sesión',
+        },
+        appInfoDialog: {
+          version: 'Versión',
+          userAgent: 'Información del navegador',
+          close: 'Cerrar',
         },
       },
     },
