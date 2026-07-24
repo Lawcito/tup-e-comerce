@@ -138,14 +138,10 @@ export class AccountSettings implements OnInit {
 
     localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
 
-    // Esperamos a que el toast se cierre antes de navegar,
-    // así la vista de configuración ya muestra los datos guardados.
-    this.snackBar
-      .open('Datos guardados', 'Cerrar', { duration: 3000 })
-      .afterDismissed()
-      .subscribe(() => {
-        this.router.navigate(['/settings']);
-      });
+    // Navegamos de inmediato; el toast se muestra por encima sin bloquear
+    // la vuelta a /settings, que ya va a leer los datos actualizados.
+    this.router.navigate(['/settings']);
+    this.snackBar.open('Datos guardados', 'Cerrar', { duration: 3000 });
   }
 
   // ─── cancelar ────────────────────────────────────────────────────
