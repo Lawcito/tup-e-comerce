@@ -1,8 +1,13 @@
 <main class="settings-page">
-  <h1>{{ 'settings.title' | translate }}</h1>
+  <div class="settings-header">
+    <h1>{{ 'settings.title' | translate }}</h1>
+    <button mat-raised-button color="warn" (click)="openLogoutConfirm()">
+      <mat-icon>logout</mat-icon>
+      {{ 'navigation.logout' | translate }}
+    </button>
+  </div>
 
   <div class="settings-container">
-
     <mat-card class="settings-card">
       <mat-card-header>
         <mat-card-title>{{ 'settings.account' | translate }}</mat-card-title>
@@ -17,21 +22,39 @@
             <mat-icon matListItemIcon>email</mat-icon>
             <span matListItemTitle>{{ getUser()?.email }}</span>
           </mat-list-item>
+
+          @if (savedData?.birthDate) {
+            <mat-list-item>
+              <mat-icon matListItemIcon>cake</mat-icon>
+              <span matListItemTitle>{{ savedData?.birthDate | date: 'dd/MM/yyyy' }}</span>
+            </mat-list-item>
+          }
+
+          @for (phone of savedData?.phones; track phone) {
+            @if (phone) {
+              <mat-list-item>
+                <mat-icon matListItemIcon>phone</mat-icon>
+                <span matListItemTitle>{{ phone }}</span>
+              </mat-list-item>
+            }
+          }
+
+          @for (address of savedData?.addresses; track address) {
+            @if (address) {
+              <mat-list-item>
+                <mat-icon matListItemIcon>home</mat-icon>
+                <span matListItemTitle>{{ address }}</span>
+              </mat-list-item>
+            }
+          }
         </mat-list>
       </mat-card-content>
+      <mat-card-actions>
+        <button mat-stroked-button routerLink="/settings/account">
+          <mat-icon>edit</mat-icon>
+          Editar
+        </button>
+      </mat-card-actions>
     </mat-card>
-
-    <mat-card class="settings-card">
-      <mat-card-header>
-        <mat-card-title>{{ 'settings.session' | translate }}</mat-card-title>
-      </mat-card-header>
-      <mat-card-content>
-        <button mat-raised-button color="warn" (click)="openLogoutConfirm()">
-          <mat-icon>logout</mat-icon>
-          {{ 'navigation.logout' | translate }}
-        </button>  
-      </mat-card-content>
-    </mat-card>
-
   </div>
 </main>

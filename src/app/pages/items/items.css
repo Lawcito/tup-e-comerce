@@ -29,9 +29,21 @@
   font-family: var(--body-font);
 }
 
-.items-controls input {
+.items-controls .search-input {
   flex: 1;
   min-width: 240px;
+}
+
+.filter-group {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+
+.items-controls .price-input {
+  width: 120px;
+  min-width: unset;
+  flex: none;
 }
 
 .items-controls select {
@@ -239,12 +251,18 @@
     flex-direction: column;
   }
 
-  .items-controls input,
-  .items-controls select {
+  .items-controls .search-input,
+  .items-controls select,
+  .filter-group {
     width: 100%;
   }
 
   .brand-dropdown {
     width: 100%;
+  }
+
+  .filter-group .price-input {
+    width: 100%;
+    flex: 1;
   }
 }
