@@ -4,19 +4,38 @@
 
     <div class="items-controls">
       <input
+        class="search-input"
         type="text"
         [placeholder]="'items.searchPlaceholder' | translate"
         [ngModel]="searchText()"
         (ngModelChange)="onSearchChange($event)"
       />
 
-      <select
-        [ngModel]="sortBy()"
-        (ngModelChange)="onSortChange($event)"
-      >
+      <div class="filter-group">
+        <span>{{ 'items.price' | translate }}</span>
+        <input
+          class="price-input"
+          type="number"
+          [placeholder]="'items.minPrice' | translate"
+          [ngModel]="minPrice()"
+          (ngModelChange)="onMinPriceChange($event)"
+          min="0"
+        />
+        <input
+          class="price-input"
+          type="number"
+          [placeholder]="'items.maxPrice' | translate"
+          [ngModel]="maxPrice()"
+          (ngModelChange)="onMaxPriceChange($event)"
+          min="0"
+        />
+      </div>
+
+      <select [ngModel]="sortBy()" (ngModelChange)="onSortChange($event)">
         <option value="name">{{ 'items.sortByName' | translate }}</option>
         <option value="brand">{{ 'items.sortByBrand' | translate }}</option>
-        <option value="price">{{ 'items.sortByPrice' | translate }}</option>
+        <option value="priceAsc">{{ 'items.sortByPriceAsc' | translate }}</option>
+        <option value="priceDesc">{{ 'items.sortByPriceDesc' | translate }}</option>
         <option value="rating">{{ 'items.sortByRating' | translate }}</option>
         <option value="category">{{ 'items.sortByCategory' | translate }}</option>
         <option value="product_type">{{ 'items.sortByType' | translate }}</option>
@@ -61,7 +80,10 @@
 
             <div class="item-info">
               <span>{{ 'items.price' | translate }}: ${{ item.price || '0' }}</span>
-              <span>{{ 'items.rating' | translate }}: {{ item.rating || ('items.noRating' | translate) }}</span>
+              <span
+                >{{ 'items.rating' | translate }}:
+                {{ item.rating || ('items.noRating' | translate) }}</span
+              >
             </div>
 
             <p class="item-category">

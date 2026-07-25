@@ -1,16 +1,22 @@
 import { Injectable, NgZone, inject } from '@angular/core';
 import { Router } from '@angular/router';
 import { initializeApp } from 'firebase/app';
-import { getAuth, signInWithPopup, GoogleAuthProvider, signOut, onAuthStateChanged } from 'firebase/auth';
+import {
+  getAuth,
+  signInWithPopup,
+  GoogleAuthProvider,
+  signOut,
+  onAuthStateChanged,
+} from 'firebase/auth';
 import i18next from '../i18n';
 
 const firebaseConfig = {
-  apiKey: "AIzaSyDdSGd2cM2JemXn7ahXzyJs6bCqvMikIxw",
-  authDomain: "tup-e-comerce.firebaseapp.com",
-  projectId: "tup-e-comerce",
-  storageBucket: "tup-e-comerce.firebasestorage.app",
-  messagingSenderId: "376739417761",
-  appId: "1:376739417761:web:e0821a510a273fd21baae0"
+  apiKey: 'AIzaSyDdSGd2cM2JemXn7ahXzyJs6bCqvMikIxw',
+  authDomain: 'tup-e-comerce.firebaseapp.com',
+  projectId: 'tup-e-comerce',
+  storageBucket: 'tup-e-comerce.firebasestorage.app',
+  messagingSenderId: '376739417761',
+  appId: '1:376739417761:web:e0821a510a273fd21baae0',
 };
 
 const app = initializeApp(firebaseConfig);
@@ -19,6 +25,7 @@ const auth = getAuth(app);
 export interface AuthUser {
   displayName: string;
   email: string;
+  photoURL: string | null;
 }
 
 @Injectable({ providedIn: 'root' })
@@ -68,7 +75,8 @@ export class AuthService {
     if (!user) return null;
     return {
       displayName: user.displayName ?? i18next.t('common.user'),
-      email: user.email ?? ''
+      email: user.email ?? '',
+      photoURL: user.photoURL,
     };
   }
 }
