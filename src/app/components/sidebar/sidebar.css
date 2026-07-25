@@ -55,13 +55,15 @@
 .sidebar-footer {
   padding: 20px;
   border-top: 1px solid var(--border-color);
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
 }
 
-.logout-btn {
+.logout-btn,
+.info-btn {
   width: 100%;
   padding: 10px;
-  background-color: var(--error-color);
-  color: white;
   border: none;
   border-radius: 4px;
   cursor: pointer;
@@ -73,12 +75,29 @@
   transition: background-color 0.3s ease;
 }
 
+.logout-btn {
+  background-color: var(--error-color);
+  color: white;
+}
+
 .logout-btn:hover {
   background-color: var(--error-hover);
 }
 
-.logout-btn mat-icon {
+.logout-btn mat-icon,
+.info-btn mat-icon {
   font-size: 18px;
   width: 18px;
   height: 18px;
+}
+
+.info-btn {
+  background-color: transparent;
+  color: var(--primary-color);
+  border: 1px solid var(--primary-color);
+}
+
+.info-btn:hover {
+  background-color: var(--primary-color);
+  color: white;
 }

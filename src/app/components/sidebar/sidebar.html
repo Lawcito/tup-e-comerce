@@ -13,17 +13,17 @@
       <mat-icon matListItemIcon>settings</mat-icon>
       <span matListItemTitle>{{ 'navigation.settings' | translate }}</span>
     </mat-list-item>
-
-    <mat-list-item (click)="openAppInfo()">
-      <mat-icon matListItemIcon>info</mat-icon>
-      <span matListItemTitle>{{ 'navigation.info' | translate }}</span>
-    </mat-list-item>
   </mat-nav-list>
 
   <div class="sidebar-footer">
     <button class="logout-btn" (click)="openLogoutConfirm()">
       <mat-icon>logout</mat-icon>
       {{ 'navigation.logout' | translate }}
+    </button>
+
+    <button class="info-btn" (click)="openAppInfo()">
+      <mat-icon>info</mat-icon>
+      {{ 'navigation.info' | translate }}
     </button>
   </div>
 </nav>
