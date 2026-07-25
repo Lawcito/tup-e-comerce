@@ -112,13 +112,22 @@ export class Items implements OnInit {
   onPageChange(event: PageEvent): void {
     this.currentPage.set(event.pageIndex);
     this.pageSize.set(event.pageSize);
+
+    // Hacer scroll hacia arriba suavemente al cambiar de página
+    const mainContent = document.querySelector('.main-content');
+    if (mainContent) {
+      mainContent.scrollTo({ top: 0, behavior: 'smooth' });
+    } else {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
   }
 
   hideBrokenImage(event: Event): void {
     const image = event.target as HTMLImageElement;
-    const card = image.closest('.item-card') as HTMLElement;
-    if (card) {
-      card.style.display = 'none';
+    if (!image.src.includes('assets/logo_clocknails.png')) {
+      image.src = 'assets/logo_clocknails.png';
+    } else {
+      image.style.display = 'none';
     }
   }
 
