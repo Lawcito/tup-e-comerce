@@ -26,17 +26,33 @@ export class Items implements OnInit {
   minPrice = signal<number | null>(null);
   maxPrice = signal<number | null>(null);
 
+  // ─── filtro por marca ────────────────────────────────────────────
+  selectedBrands = signal<string[]>([]);
+  showBrandDropdown = signal(false);
+
+  availableBrands = computed(() => {
+    const brands = this.items()
+      .map((item) => item.brand)
+      .filter((brand): brand is string => !!brand);
+
+    return [...new Set(brands)].sort((a, b) => a.localeCompare(b));
+  });
+
   filteredItems = computed(() => {
     const text = this.searchText().toLowerCase().trim();
     const sortProperty = this.sortBy();
+    const brands = this.selectedBrands();
 
     let result = this.items().filter((item) => {
-      const textMatch =
+      const matchesText =
         item.name?.toLowerCase().includes(text) ||
         item.brand?.toLowerCase().includes(text) ||
         item.description?.toLowerCase().includes(text) ||
         item.category?.toLowerCase().includes(text) ||
         item.product_type?.toLowerCase().includes(text);
+
+      const matchesBrand =
+        brands.length === 0 || (item.brand ? brands.includes(item.brand) : false);
 
       const itemPrice = Number(item.price) || 0;
       const min = this.minPrice();
@@ -45,7 +61,7 @@ export class Items implements OnInit {
       const minMatch = min === null || itemPrice >= min;
       const maxMatch = max === null || itemPrice <= max;
 
-      return textMatch && minMatch && maxMatch;
+      return matchesText && matchesBrand && minMatch && maxMatch;
     });
 
     result = [...result].sort((a, b) => {
@@ -102,6 +118,31 @@ export class Items implements OnInit {
 
   onSortChange(value: string): void {
     this.sortBy.set(value);
+  }
+
+  toggleBrandDropdown(): void {
+    this.showBrandDropdown.set(!this.showBrandDropdown());
+  }
+
+  closeBrandDropdown(): void {
+    this.showBrandDropdown.set(false);
+  }
+
+  isBrandSelected(brand: string): boolean {
+    return this.selectedBrands().includes(brand);
+  }
+
+  toggleBrand(brand: string): void {
+    const current = this.selectedBrands();
+    if (current.includes(brand)) {
+      this.selectedBrands.set(current.filter((b) => b !== brand));
+    } else {
+      this.selectedBrands.set([...current, brand]);
+    }
+  }
+
+  clearBrandFilter(): void {
+    this.selectedBrands.set([]);
   }
 
   onMinPriceChange(value: string | number | null): void {
