@@ -8,7 +8,7 @@
   position: fixed;
   left: 0;
   top: 0;
-  overflow-y: auto;
+  overflow-y: hidden;
 }
 
 .sidebar-header {
@@ -50,6 +50,7 @@
 .sidebar-menu ::ng-deep .mdc-list-item.active .mdc-list-item__primary-text {
   color: var(--primary-color);
   font-weight: 600;
+<<<<<<< HEAD
 }
 
 .sidebar-footer {
@@ -100,4 +101,6 @@
 .info-btn:hover {
   background-color: var(--primary-color);
   color: white;
+=======
+>>>>>>> origin/main
 }
