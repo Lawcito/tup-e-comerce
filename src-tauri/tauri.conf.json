@@ -1,8 +1,8 @@
 {
   "$schema": "../node_modules/@tauri-apps/cli/config.schema.json",
-  "productName": "e-comercee-comerce",
+  "productName": "Clock Nails",
   "version": "0.1.0",
-  "identifier": "com.tauri.dev",
+  "identifier": "com.clocknails.app",
   "build": {
     "frontendDist": "../dist/e-comerce/browser",
     "devUrl": "http://localhost:4200",
