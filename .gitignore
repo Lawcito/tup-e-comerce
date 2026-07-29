@@ -6,6 +6,10 @@
 /out-tsc
 /bazel-out
 
+#Reports
+.lighthouseci
+lhci-reports
+
 # Node
 /node_modules
 npm-debug.log

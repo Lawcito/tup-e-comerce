@@ -8,7 +8,7 @@ import { ItemsService } from '../../services/items';
 import { Item } from '../../models/item';
 import i18next from '../../i18n';
 import { TranslatePipe } from '../../pipes/translate.pipe';
-
+import { AnalyticsService } from '../../services/analytics.service';
 @Component({
   selector: 'app-items',
   standalone: true,
@@ -28,6 +28,7 @@ export class Items implements OnInit {
   loading = signal(false);
   errorMessage = signal('');
   private itemsService = inject(ItemsService);
+  private analyticsService = inject(AnalyticsService);
 
   searchText = signal('');
   sortBy = signal('name');
@@ -128,6 +129,7 @@ export class Items implements OnInit {
 
         this.items.set(itemsWithImage);
         this.loading.set(false);
+        this.analyticsService.sendEvent('view_item_list');
       },
       error: (error) => {
         console.error('Error al obtener los productos:', error);
@@ -140,6 +142,9 @@ export class Items implements OnInit {
   onSearchChange(value: string): void {
     this.searchText.set(value);
     this.currentPage.set(0); // Volver a página 1 al buscar
+    if (value.trim() !== '') {
+      this.analyticsService.sendEvent('search', { search_term: value });
+    }
   }
 
   onSortChange(value: string): void {
