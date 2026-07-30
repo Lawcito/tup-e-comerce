@@ -21,7 +21,7 @@
   "private": true,
   "packageManager": "npm@11.5.2",
   "dependencies": {
-    "@angular/animations": "^21.2.14",
+    "@angular/animations": "^21.2.9",
     "@angular/cdk": "^21.2.7",
     "@angular/common": "^21.2.0",
     "@angular/compiler": "^21.2.0",
@@ -41,9 +41,9 @@
     "tslib": "^2.8.1"
   },
   "devDependencies": {
-    "@angular/build": "^21.2.14",
-    "@angular/cli": "^21.2.14",
-    "@angular/compiler-cli": "^21.2.14",
+    "@angular/build": "^21.2.7",
+    "@angular/cli": "^21.2.7",
+    "@angular/compiler-cli": "^21.2.0",
     "@capacitor/cli": "^8.4.2",
     "@eslint/js": "^10.0.1",
     "@tauri-apps/cli": "^2.11.4",
@@ -58,8 +58,7 @@
     "prettier": "^3.8.3",
     "typescript": "~5.9.2",
     "typescript-eslint": "8.59.2",
-    "vitest": "^4.0.8",
-    "@sentry/angular": "^10.67.0"
+    "vitest": "^4.0.8"
   },
   "lint-staged": {
     "*.ts": [
