@@ -1,15 +1,14 @@
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { Item } from '../models/item';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class ItemsApiService {
-  private readonly apiUrl = 'https://makeup-api.herokuapp.com/api/v1/products.json';
-
-  constructor(private http: HttpClient) {}
+  private readonly apiUrl = 'https://tup-e-comerce-backend-production-afdd.up.railway.app/items';
+  private http = inject(HttpClient);
 
   fetchItems(): Observable<Item[]> {
     return this.http.get<Item[]>(this.apiUrl);
