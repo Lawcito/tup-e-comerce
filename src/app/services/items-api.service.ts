@@ -7,7 +7,7 @@ import { Item } from '../models/item';
   providedIn: 'root',
 })
 export class ItemsApiService {
-  private readonly apiUrl = 'http://localhost:3000/items';
+  private readonly apiUrl = 'https://tup-e-comerce-backend-production-afdd.up.railway.app/items';
   private http = inject(HttpClient);
 
   fetchItems(): Observable<Item[]> {
