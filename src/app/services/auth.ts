@@ -3,8 +3,7 @@ import { Router } from '@angular/router';
 import { initializeApp } from 'firebase/app';
 import {
   getAuth,
-  signInWithRedirect,
-  getRedirectResult,
+  signInWithPopup,
   GoogleAuthProvider,
   signOut,
   onAuthStateChanged,
@@ -36,10 +35,6 @@ export class AuthService {
   private zone = inject(NgZone);
 
   constructor() {
-    getRedirectResult(auth).catch((error) => {
-      console.error('Error al procesar el redirect de login:', error);
-    });
-
     this.authStatePromise = new Promise((resolve) => {
       onAuthStateChanged(auth, (user) => {
         resolve();
@@ -62,9 +57,9 @@ export class AuthService {
     });
   }
 
-  login(): Promise<void> {
+  async login(): Promise<void> {
     const provider = new GoogleAuthProvider();
-    return signInWithRedirect(auth, provider);
+    await signInWithPopup(auth, provider);
   }
 
   logout(): Promise<void> {
